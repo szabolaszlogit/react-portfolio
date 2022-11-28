@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 
+import  MovieCard  from "./movie/MovieCard";
+
 function Movies() {
   const [movies, setMovies] = useState([]);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
-    searchMovies();
+    searchMovies("Star Wars");
   }, []);
 
   const searchMovies = async (title) => {
     try {
       const response = await fetch(
-        "http://www.omdbapi.com/?s=Batttman&apikey=1b8b0ce1"
+        "http://www.omdbapi.com/?apikey=1b8b0ce1&s=" + title
       );
       if (response.ok) {
         const data = await response.json();
@@ -23,11 +26,23 @@ function Movies() {
       console.log(error);
     }
   };
+  return (
+    <div>
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        type="text"
+        placeholder="Search for movies"
+      />
+      <button onClick={() => searchMovies(title)}>Serch</button>
 
-  if (movies?.length > 0) {
-    return <div>{movies.map((movie) => movie.Title)}</div>;
-  } else {
-    return <div>No result</div>;
-  }
+      {movies?.length > 0 ? (
+        <div>{movies.map((movie, index) =>(<MovieCard key={index} movie={movie}/>))}</div>
+      ) : (
+        <div>No result</div>
+      )}
+    </div>
+  );
 }
+
 export default Movies;
