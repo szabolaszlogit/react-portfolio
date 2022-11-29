@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import  MovieCard  from "./movie/MovieCard";
+import MovieCard from "./movie/MovieCard";
 
 function Movies() {
   const [movies, setMovies] = useState([]);
@@ -9,6 +9,12 @@ function Movies() {
   useEffect(() => {
     searchMovies("Star Wars");
   }, []);
+
+  function handleKeyDown(e) {
+    if (e.key == "Enter") {
+      searchMovies(title);
+    }
+  }
 
   const searchMovies = async (title) => {
     try {
@@ -27,17 +33,23 @@ function Movies() {
     }
   };
   return (
-    <div>
+    <div onKeyDown={handleKeyDown}>
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         type="text"
         placeholder="Search for movies"
       />
-      <button onClick={() => searchMovies(title)}>Serch</button>
+      <button tabIndex="1" onClick={() => searchMovies(title)}>
+        Serch
+      </button>
 
       {movies?.length > 0 ? (
-        <div>{movies.map((movie, index) =>(<MovieCard key={index} movie={movie}/>))}</div>
+        <div>
+          {movies.map((movie, index) => (
+            <MovieCard key={index} movie={movie} />
+          ))}
+        </div>
       ) : (
         <div>No result</div>
       )}
