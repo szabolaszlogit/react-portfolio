@@ -5,6 +5,7 @@ import Home from "./Home";
 import Contact from "./Contact";
 import Movies from "./Movies";
 import Movie from "./movie/Movie";
+import FlappyBird from "./FlappyBird";
 import NoMatch from "./NoMatch";
 
 export default function App() {
@@ -15,8 +16,8 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/movie/:id" element={<Movie />} />
-
           <Route path="/movies" element={<Movies />} />
+          <Route path="/flappy" element={<FlappyBird />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
