@@ -5,26 +5,27 @@ function JumpGame() {
   const boardWidth = 600;
   const boardHeight = 600;
 
-  const birdSize = 40;
+  const birdSize = 80;
   const fallSpeed = 10;
-  let flySpeed = 60;
   const [birdTop, setBirdTop] = useState(0);
-  const [birdBottom, setBirdBottom] = useState();
+  const [flySpeed, setFlySpeed] = useState(60);
 
   const obstacleLeftStart = 570;
-  //let obstacleHeight = 100;
-  let obstacleSpeed = 10;
+  const [obstacleSpeed, setObstacleSpeed] = useState(10);
   const [obstacleHeight, setObstacleHeight] = useState(100);
   const [obstacleBottom, setObstacleBottom] = useState(100);
   const [obstacleLeft, setObstacleLeft] = useState(obstacleLeftStart);
+
+  const [gameRunning, setGameRunning] = useState(true);
+  const [score, setScore] = useState(0);
 
   let timerBirdFalling;
   let timerObstacle;
 
   // bird falling
   useEffect(() => {
-    if(obstacleSpeed == 0) {
-      return
+    if (gameRunning == false) {
+      return;
     }
     if (birdTop != boardHeight - birdSize) {
       timerBirdFalling = setInterval(() => {
@@ -42,6 +43,10 @@ function JumpGame() {
       setObstacleHeight(height);
       let bottom = Math.random() * (boardHeight - height);
       setObstacleBottom(bottom);
+      setScore(score + 1);
+      setFlySpeed(flySpeed + 10);
+      setObstacleSpeed(obstacleSpeed + 10);
+
       return;
     }
 
@@ -53,8 +58,8 @@ function JumpGame() {
   });
   // bird fly
   function flyBird() {
-    if(obstacleSpeed == 0) {
-      return
+    if (gameRunning == false) {
+      return;
     }
     if (birdTop - flySpeed <= 0) {
       setBirdTop(0);
@@ -65,18 +70,36 @@ function JumpGame() {
 
   // collision
   useEffect(() => {
-    if (obstacleLeft < 100 && (birdTop < obstacleBottom )) {
-      obstacleSpeed = 0;
+    let birdPos = boardWidth - birdTop;
+    let obsTop = obstacleBottom + obstacleHeight;
 
-      return()=> obstacleSpeed;
+    if (
+      obstacleLeft < birdSize &&
+      birdPos > obstacleBottom &&
+      birdPos < obsTop
+    ) {
+      endGame();
     }
   });
+
+  function endGame() {
+    setObstacleSpeed(0);
+    setGameRunning(false);
+  }
+  function startGame() {
+    setObstacleSpeed(10);
+    setFlySpeed(60)
+    setObstacleLeft(600);
+    setScore(0)
+    setGameRunning(true);
+  }
 
   return (
     <section onClick={flyBird}>
       <div>
-        {obstacleLeft}
-        <button>Start</button>
+        <div className="ma1">Score: {score}</div>
+        <div className="ma1">Speed: {flySpeed}</div>
+        <button className="f6 grow no-underline br-pill ph3 pv2 ma3 dib white bg-dark-green" onClick={startGame}>Start</button>
       </div>
       <div className="board">
         <Bird top={birdTop} />
@@ -102,110 +125,5 @@ function JumpGame() {
     );
   }
 }
-/*
-  const boardSize = 600;
 
-  const BirdSize = 40;
-  const birdStartPos = 250;
-  const fallSpeed = 10;
-  const flySpeed = 60;
-  const [birdTop, setBirdTop] = useState(birdStartPos);
-
-  const obstacleLeftStart = 570;
-  //let obstacleHeight = 100;
-  let obstacleSpeed = 10;
-  const [obstacleHeight, setObstacleHeight] = useState(100);
-  const [obstacleLeft, setObstacleLeft] = useState(obstacleLeftStart);
-
-  const [gameOver, setGameOver] = useState(false);
-
-  // bird falling
-  useEffect(() => {
-    let timer;
-    if (birdTop < boardSize - BirdSize) {
-      timer = setInterval(() => {
-        setBirdTop((birdTop) => birdTop + fallSpeed);
-      }, 100);
-      return () => clearInterval(timer);
-    }
-  });
-
-  // bird fly
-  function flyBird() {
-    if (birdTop < 50  ) {
-      return;
-    }
-    setBirdTop((birdTop) => birdTop - flySpeed);
-  }
-  // obstacle running to left
-  useEffect(() => {
-    let timer;
-
-    if (obstacleLeft < 10) {
-      setObstacleLeft(600);
-      let height = Math.random() * 500;
-      setObstacleHeight(height);
-    }
-
-    if (obstacleLeft > 0 ) {
-      timer = setInterval(() => {
-        setObstacleLeft((obstacleLeft) => obstacleLeft - obstacleSpeed);
-      }, 100);
-
-      return () => clearInterval(timer);
-    }
-  });
-
-  // start
-  function startGame() {}
-
-  // collision
-  useEffect(() => {
-    if (obstacleLeft < 50 && birdTop < obstacleHeight) {
-      return () => {
-        obstacleSpeed = 0;
-      };
-    }
-  });
-
-  
-  return (
-    <section onClick={flyBird}>
-      <div>
-        <button onClick={startGame()}>Start</button>
-      </div>
-      // start butto // board // bird // obstacles // score
-      <div className="board">
-        <Bird top={birdTop} />
-        <Obstacles left={obstacleLeft} height={obstacleHeight} />
-        <States birdTop={birdTop} obstaclePos={obstacleLeft} />
-      </div>
-    </section>
-  );
-}
-
-function Bird(props) {
-  let top = props.top + "px";
-  return <div style={{ top: top }} className="bird"></div>;
-}
-
-function Obstacles(props) {
-  let left = props.left + "px";
-  let height = props.height + "px";
-  return (
-    <div
-      style={{ left: left, height: height, bottom: "0px" }}
-      className="obstacles"
-    ></div>
-  );
-}
-
-function States(props) {
-  return (
-    <div>
-      {props.birdTop} - {props.obstaclePos}
-    </div>
-  );
-
-}*/
 export default JumpGame;
