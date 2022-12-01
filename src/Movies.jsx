@@ -17,7 +17,6 @@ function Movies() {
   }
 
   const searchMovies = async (title) => {
-    
     try {
       const response = await fetch(
         "https://www.omdbapi.com/?apikey=1b8b0ce1&s=" + title

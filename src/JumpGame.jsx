@@ -45,7 +45,7 @@ function JumpGame() {
       setObstacleBottom(bottom);
       setScore(score + 1);
       setFlySpeed(flySpeed + 10);
-      setObstacleSpeed(obstacleSpeed + 10);
+      setObstacleSpeed(obstacleSpeed + 5);
 
       return;
     }
