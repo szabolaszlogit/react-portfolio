@@ -4,7 +4,7 @@ function Layout() {
   const links = [
     { to: "/", txt: "Home" },
     { to: "/movies", txt: "Movie search" },
-    { to: "/flappy", txt: "Flappy Bird" },
+    { to: "/jump", txt: "Jump Game" },
     { to: "/contact", txt: "Contact" },
   ];
   const listLinks = links.map((link, index) => (
