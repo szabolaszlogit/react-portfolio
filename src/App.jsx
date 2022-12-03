@@ -6,6 +6,7 @@ import Contact from "./Contact";
 import Movies from "./Movies";
 import Movie from "./movie/Movie";
 import JumpGame from "./JumpGame";
+import Snake from "./Snake";
 import NoMatch from "./NoMatch";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/jump" element={<JumpGame />} />
+          <Route path="/snake" element={<Snake />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

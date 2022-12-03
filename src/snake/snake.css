@@ -1,0 +1,22 @@
+.snakeboard {
+  position: relative;
+  border: 1px solid black;
+  width: 600px;
+  height: 600px;
+}
+
+.snakedot {
+  position: absolute;
+  background-color: black;
+  width: 2%;
+  height: 2%;
+  border: 1px solid #fff;
+}
+
+.food {
+  position: absolute;
+  background-color:deeppink;
+  width: 2%;
+  height: 2%;
+  border: 1px solid #fff;
+}
